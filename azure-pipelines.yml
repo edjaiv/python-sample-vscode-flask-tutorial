@@ -20,7 +20,6 @@ strategy:
       python.version: '3.7'
 variables:
   liststr: 'item1,item2,item3'
-  list_of_values: []
 
 steps:
 - task: Bash@3
