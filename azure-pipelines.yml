@@ -23,10 +23,16 @@ variables:
 
 steps:
 - bash: |
+    echo '${liststr}'
     echo '$liststr'
+    echo "$liststr"
+    echo $liststr
+    echo 'env:liststr'
     IFS=', ' read -r -a array <<< "$liststr"
-    echo 'Hello $array'
-    echo "##vso[task.setvariable variable=list_of_values]$array"
+    export tmp=('this','is','one')
+    echo 'Hello $tmp'
+    echo 'Hello ${tmp}'
+    echo "##vso[task.setvariable variable=list_of_values]$tmp"
 - task: UsePythonVersion@0
   inputs:
     versionSpec: '$(python.version)'
