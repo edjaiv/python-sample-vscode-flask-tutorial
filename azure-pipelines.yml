@@ -28,7 +28,7 @@ steps:
     script: |
       # Write your commands here
       IFS=', ' read -r -a array <<< "$liststr"
-      echo 'Hello ${array[0]}'
+      echo 'Hello $array[0]'
       echo "##vso[task.setvariable variable=list_of_values]$array"
 - task: UsePythonVersion@0
   inputs:
@@ -39,11 +39,11 @@ steps:
 - script: |
     python -m pip install --upgrade pip
     pip install -r requirements.txt
-    echo "Hello ${array[0]}"
+    echo "Hello $list_of_values[0]"
   displayName: 'Install dependencies'
 
 - script: |
     pip install pytest pytest-azurepipelines
     pytest
-    echo "Hello ${array[1]}"
+    echo "Hello $list_of_values[1]"
   displayName: 'pytest'
