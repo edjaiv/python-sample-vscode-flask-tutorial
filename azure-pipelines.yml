@@ -22,14 +22,11 @@ variables:
   liststr: 'item1,item2,item3'
 
 steps:
-- task: Bash@3
-  inputs:
-    targetType: 'inline'
-    script: |
-      echo '$liststr'
-      IFS=', ' read -r -a array <<< "$liststr"
-      echo 'Hello $array'
-      echo "##vso[task.setvariable variable=list_of_values]$array"
+- bash: |
+    echo '$liststr'
+    IFS=', ' read -r -a array <<< "$liststr"
+    echo 'Hello $array'
+    echo "##vso[task.setvariable variable=list_of_values]$array"
 - task: UsePythonVersion@0
   inputs:
     versionSpec: '$(python.version)'
