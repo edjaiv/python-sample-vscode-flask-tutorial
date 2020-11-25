@@ -26,18 +26,12 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-      echo "$liststr"
-      echo $liststr
-      echo $(liststr)
-      echo $(LISTSTR)
-      echo $(STRLIST)
-      echo $[LISTSTR]
-      echo $[STRLIST]
-      IFS=', ' read -r -a array <<< "$(STRLIST)"
-      echo "${array[0]}"
-      asarray=(`echo $(liststr) | tr ',' ' '`)
-      echo "${asarray[0]}"
-      echo "##vso[task.setvariable variable=list_of_values]$asarray"
+      echo "liststr : $(liststr)"
+      echo "strlist : $(STRLIST)"
+      as_array=(`echo $(liststr) | tr ',' ' '`)
+      echo "first item: ${as_array[0]}"
+      echo "second item: ${as_array[1]}"
+      echo "##vso[task.setvariable variable=list_of_values]$as_array"
 - task: UsePythonVersion@0
   inputs:
     versionSpec: '$(python.version)'
@@ -47,12 +41,11 @@ steps:
 - script: |
     python -m pip install --upgrade pip
     pip install -r requirements.txt
-    echo "Hello $(list_of_values)"
-    echo "Hello $(list_of_values[0])"
-    echo "Hello ${$(list_of_values)[0]}"
-    echo "Hello ${(list_of_values)[0]}"
-    echo "Hello $list_of_values"
-    echo "Hello ${list_of_values}"
+    echo "List of values : $(list_of_values)"
+    as_array=$(list_of_values)
+    echo "using local variable: $as_array"
+    echo "item 0: ${as_array[0]}"
+    echo "item 1: ${as_array[1]}"
   displayName: 'Install dependencies'
 
 - script: |
