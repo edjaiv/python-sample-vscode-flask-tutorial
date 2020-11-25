@@ -22,19 +22,22 @@ variables:
   liststr: $(strlist)
 
 steps:
-- bash: |
-    echo '${liststr}'
-    echo '$liststr'
-    echo "$liststr"
-    echo $(liststr)
-    echo $(LISTSTR)
-    echo $(STRLIST)
-    echo 'env:liststr'
-    IFS=', ' read -r -a array <<< "$(STRLIST)"
-    export tmp=('this','is','one')
-    echo 'Hello $tmp'
-    echo 'Hello ${tmp}'
-    echo "##vso[task.setvariable variable=list_of_values]$tmp"
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: |
+      echo "$liststr"
+      echo $liststr
+      echo $(liststr)
+      echo $(LISTSTR)
+      echo $(STRLIST)
+      echo $[LISTSTR]
+      echo $[STRLIST]
+      IFS=', ' read -r -a array <<< "$(STRLIST)"
+      echo "${array[0]}"
+      asarray=(`echo $(liststr) | tr ',' ' '`)
+      echo "${asarray[0]}"
+      echo "##vso[task.setvariable variable=list_of_values]$asarray"
 - task: UsePythonVersion@0
   inputs:
     versionSpec: '$(python.version)'
@@ -44,7 +47,12 @@ steps:
 - script: |
     python -m pip install --upgrade pip
     pip install -r requirements.txt
-    echo "Hello $env:list_of_values[0]"
+    echo "Hello $(list_of_values)"
+    echo "Hello $(list_of_values[0])"
+    echo "Hello ${$(list_of_values)[0]}"
+    echo "Hello ${(list_of_values)[0]}"
+    echo "Hello $list_of_values"
+    echo "Hello ${list_of_values}"
   displayName: 'Install dependencies'
 
 - script: |
