@@ -26,7 +26,9 @@ steps:
     echo '${liststr}'
     echo '$liststr'
     echo "$liststr"
-    echo $liststr
+    echo $(liststr)
+    echo $(LISTSTR)
+    echo $(STRLIST)
     echo 'env:liststr'
     IFS=', ' read -r -a array <<< "$liststr"
     export tmp=('this','is','one')
