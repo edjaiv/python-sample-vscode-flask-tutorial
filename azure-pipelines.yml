@@ -19,10 +19,8 @@ strategy:
     Python37:
       python.version: '3.7'
 variables:
-- name: liststr
-  value: 'item1,item2,item3'
-- name: list_of_values
-  value: []
+  liststr: 'item1,item2,item3'
+  list_of_values: []
 
 steps:
 - task: Bash@3
