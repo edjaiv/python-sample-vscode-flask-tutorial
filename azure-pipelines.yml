@@ -39,11 +39,11 @@ steps:
 - script: |
     python -m pip install --upgrade pip
     pip install -r requirements.txt
-    echo "Hello $list_of_values[0]"
+    echo "Hello $env:list_of_values[0]"
   displayName: 'Install dependencies'
 
 - script: |
     pip install pytest pytest-azurepipelines
     pytest
-    echo "Hello $list_of_values[1]"
+    echo "Hello $env:list_of_values[1]"
   displayName: 'pytest'
